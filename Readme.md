@@ -254,6 +254,97 @@ Now you can start VS Code by running:
 
 ---
 
+## 🔁 Keep Code-Server Running in Background (Prevent Connection Loss)
+
+<div align="center">
+
+![Termux](https://img.shields.io/badge/Always_Running-000000?style=for-the-badge&logo=android&logoColor=white)
+
+</div>
+
+To prevent having to reopen Termux every time the server disconnects, use one of these methods:
+
+### Method 1: Using `nohup` (Recommended)
+
+```bash
+nohup code-server > ~/code-server.log 2>&1 &
+```
+
+This runs code-server in the background. To stop it:
+
+```bash
+pkill code-server
+```
+
+### Method 2: Using Termux:Boot (Auto-start on device boot)
+
+1. Install Termux:Boot from F-Droid
+2. Create the boot script directory:
+
+```bash
+mkdir -p ~/.termux/boot
+```
+
+3. Create a startup script:
+
+```bash
+cat > ~/.termux/boot/start-code-server.sh << 'EOF'
+#!/data/data/com.termux/files/usr/bin/bash
+termux-wake-lock
+code-server > ~/code-server.log 2>&1 &
+EOF
+
+chmod +x ~/.termux/boot/start-code-server.sh
+```
+
+4. Reboot your device - code-server will start automatically!
+
+### Method 3: Using `screen` or `tmux`
+
+Install tmux:
+
+```bash
+pkg install tmux
+```
+
+Start code-server in tmux:
+
+```bash
+tmux new -s vscode
+code-server
+```
+
+Detach from tmux: Press `Ctrl+B` then `D`
+
+Reattach later:
+
+```bash
+tmux attach -t vscode
+```
+
+### Keep Termux Running in Background
+
+To prevent Android from killing Termux:
+
+1. Go to Android Settings → Apps → Termux
+2. Disable battery optimization for Termux
+3. Enable "Allow background activity"
+4. Use `termux-wake-lock` to keep CPU awake:
+
+```bash
+termux-wake-lock
+```
+
+To release the wake lock:
+
+```bash
+termux-wake-unlock
+```
+
+> ✅ **Best Practice:** Use Method 1 (nohup) + wake-lock for the most reliable background operation!
+
+---
+
 ## 🌍 Step 10: Access from External Browser (Optional)
 
 To access VS Code from another device on the same network:

@@ -1,368 +1,521 @@
 <div align="center">
 
-# 🚀 VS Code in Termux — Complete Setup Guide (2025)
+# 🚀 VS Code in Termux — Complete Setup Guide (2026)
 
-**A fully functional VS Code development environment on Android — no PC required.**
+**Run a fully functional VS Code development environment on Android — no PC required.**
 
-[![Skynet](https://img.shields.io/badge/Made%20with%20%E2%9D%A4%EF%B8%8F%20by-Skynet-blue?style=flat-square)](https://github.com/skynetfc)
-[![Project](https://img.shields.io/badge/Project-Atlantia--Empire-purple?style=flat-square&logo=github)](https://github.com/skynetfc/Atlantia-Empire)
-[![Platform](https://img.shields.io/badge/Platform-Termux-green?style=flat-square&logo=linux)](https://termux.dev/)
-[![Editor](https://img.shields.io/badge/Editor-VS%20Code-blue?style=flat-square&logo=visualstudiocode)](https://code.visualstudio.com/)
-[![License](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)](https://github.com/skynetfc/Atlantia-Empire/blob/main/LICENSE)
+[![Skynet](https://img.shields.io/badge/Made%20with%20%E2%9D%A4%EF%B8%8F%20by-Skynet-0A0A23?style=for-the-badge&logo=heart&logoColor=FF6B6B)](https://github.com/skynetfc)
+[![Project](https://img.shields.io/badge/Project-Atlantia--Empire-7B2CBF?style=for-the-badge&logo=github)](https://github.com/skynetfc/Atlantia-Empire)
+[![Platform](https://img.shields.io/badge/Platform-Termux-000000?style=for-the-badge&logo=linux&logoColor=FFFFFF)](https://termux.dev/)
+[![Editor](https://img.shields.io/badge/Editor-VS%20Code-007ACC?style=for-the-badge&logo=visualstudiocode&logoColor=FFFFFF)](https://code.visualstudio.com/)
+[![License](https://img.shields.io/badge/License-MIT-F7DF1E?style=for-the-badge)](https://github.com/skynetfc/Atlantia-Empire/blob/main/LICENSE)
+[![Version](https://img.shields.io/badge/Version-2026.07-blue?style=for-the-badge)](https://github.com/skynetfc/Atlantia-Empire/releases)
 
 ---
 
-> 🔗 **Check out our new project:** [github.com/@skynetfc/Atlantia-Empire](https://github.com/skynetfc/Atlantia-Empire)
+> 🔗 **Check out our new project:** [github.com/skynetfc/Atlantia-Empire](https://github.com/skynetfc/Atlantia-Empire)
 
 </div>
 
 ---
 
-## 📊 Storage Requirements
+## 📋 Table of Contents
+
+- [Overview](#-overview)
+- [System Requirements](#-system-requirements)
+- [Prerequisites](#-prerequisites)
+- [Installation](#-installation)
+  - [Step 1: Update Termux Packages](#step-1-update-termux-packages)
+  - [Step 2: Install Dependencies](#step-2-install-dependencies)
+  - [Step 3: Install Code-Server](#step-3-install-code-server)
+  - [Step 4: Configure Code-Server](#step-4-configure-code-server)
+  - [Step 5: Start Code-Server](#step-5-start-code-server)
+  - [Step 6: Access VS Code](#step-6-access-vs-code)
+- [Extensions](#-extensions)
+- [Development Environments](#-development-environments)
+- [Background Operation](#-background-operation)
+- [External Access](#-external-access)
+- [Features](#-features)
+- [Example Projects](#-example-projects)
+- [Troubleshooting](#-troubleshooting)
+- [Performance Tips](#-performance-tips)
+- [Storage Integration](#-storage-integration)
+- [Security](#-security)
+- [Resources](#-resources)
+
+---
+
+## 🎯 Overview
+
+This guide provides a complete, production-ready setup for running **VS Code** inside **Termux** on Android devices. Whether you're coding on the go, learning new languages, or building full-stack applications — this setup delivers a professional-grade development experience directly from your mobile device.
+
+> **Target:** Android 10+ | **Termux 0.118+** | **Code-Server 4.x**
+
+---
+
+## 💻 System Requirements
+
+### Storage
 
 | Component | Minimum | Recommended |
 |-----------|---------|-------------|
 | Termux Base | 200 MB | 500 MB |
-| Code-Server | 500 MB | 1 GB |
-| Node.js | 100 MB | 200 MB |
-| Python | 50 MB | 100 MB |
-| Build Tools | 300 MB | 500 MB |
-| Extensions | 100 MB | 300 MB |
-| Project Files | 500 MB | 2 GB |
+| Code-Server | 500 MB | 1.0 GB |
+| Node.js Runtime | 100 MB | 200 MB |
+| Python Environment | 50 MB | 100 MB |
+| Build Toolchain | 300 MB | 500 MB |
+| VS Code Extensions | 100 MB | 300 MB |
+| Project Workspace | 500 MB | 2.0 GB |
 | **Total** | **~1.75 GB** | **~4.6 GB** |
 
-> ⚠️ **Important:** Ensure you have at least **2–3 GB** of free storage before starting. Recommended: **5 GB** free for comfortable development.
+> ⚠️ **Recommendation:** Maintain at least **5 GB** of free storage for optimal performance and future expansion.
+
+### Hardware
+
+| Specification | Minimum | Recommended |
+|---------------|---------|-------------|
+| RAM | 3 GB | 6 GB+ |
+| Android Version | 10 (API 29) | 13+ (API 33+) |
+| Processor | ARM64 | ARM64 (8-core) |
+| Free Storage | 3 GB | 5 GB |
 
 ---
 
-## 📋 Prerequisites
+## 📦 Prerequisites
 
-1. **Install Termux from F-Droid** (NOT Google Play Store — the Play Store version is outdated)
+1. **Install Termux from F-Droid**
+   > ⚠️ **Do not use the Google Play Store version** — it is outdated and no longer maintained.
    - Download F-Droid: [https://f-droid.org/](https://f-droid.org/)
-   - Then install Termux from F-Droid
+   - Search for and install **Termux**
 
-2. **Install Termux:API** (optional but recommended for extended functionality)
+2. **Install Termux:API** (optional, recommended for extended functionality)
+   - Available on F-Droid alongside Termux
 
 ---
 
-## 🔧 Step 1: Update Termux Packages
+## 🔧 Installation
+
+### Step 1: Update Termux Packages
+
+Ensure your package index and installed packages are current:
 
 ```bash
 pkg update && pkg upgrade -y
 ```
-> 💾 Storage used: ~50–100 MB
+
+> 💾 **Storage impact:** ~50–100 MB
 
 ---
 
-## 📦 Step 2: Install Required Dependencies
+### Step 2: Install Dependencies
+
+Install the core toolchain required for development:
 
 ```bash
 pkg install -y nodejs python git wget curl build-essential
 ```
-> 💾 Storage used: ~400–600 MB
+
+> 💾 **Storage impact:** ~400–600 MB
+
+**Installed components:**
+- `nodejs` — JavaScript runtime & npm
+- `python` — Python 3 interpreter & pip
+- `git` — Version control
+- `wget` / `curl` — Network utilities
+- `build-essential` — GCC, make, and compilation tools
 
 ---
 
-## 💻 Step 3: Install Code-Server (VS Code for Web)
+### Step 3: Install Code-Server
 
-**Code-server** is the official VS Code running in a browser — the best way to run VS Code in Termux.
+**Code-Server** is the official open-source VS Code distribution for remote development, running entirely in the browser.
+
+#### Method A: npm (Recommended)
 
 ```bash
-# Install via npm
 npm install -g code-server
 ```
 
-**Alternative method** using the official installer:
+#### Method B: Official Installer Script
+
 ```bash
 curl -fsSL https://code-server.dev/install.sh | sh
 ```
-> 💾 Storage used: ~500 MB – 1 GB
+
+> 💾 **Storage impact:** ~500 MB – 1.0 GB
 
 ---
 
-## ⚙️ Step 4: Configure Code-Server
+### Step 4: Configure Code-Server
 
-Create a configuration directory:
+Create the configuration directory and file:
+
 ```bash
 mkdir -p ~/.config/code-server
 ```
 
-Create a configuration file:
 ```bash
-cat > ~/.config/code-server/config.yaml << EOF
+cat > ~/.config/code-server/config.yaml << 'EOF'
 bind-addr: 127.0.0.1:8080
 auth: password
-password: your_secure_password_here
+password: CHANGE_THIS_TO_A_STRONG_PASSWORD
 cert: false
 EOF
 ```
 
-> 🔒 **Important:** Change `your_secure_password_here` to a strong password of your choice.
+> 🔐 **Security:** Replace `CHANGE_THIS_TO_A_STRONG_PASSWORD` with a cryptographically strong password (16+ characters, mixed case, numbers, symbols).
+
+**Configuration reference:**
+
+| Key | Value | Description |
+|-----|-------|-------------|
+| `bind-addr` | `127.0.0.1:8080` | Localhost binding (secure default) |
+| `auth` | `password` | Password-based authentication |
+| `password` | `<your_password>` | Access credential |
+| `cert` | `false` | TLS disabled (use reverse proxy for HTTPS) |
 
 ---
 
-## ▶️ Step 5: Start Code-Server
+### Step 5: Start Code-Server
+
+Launch the server:
 
 ```bash
 code-server
 ```
 
-You should see output like:
+**Expected output:**
+
 ```
-[2024-XX-XX] info  code-server 4.x.x
-[2024-XX-XX] info  Using config file ~/.config/code-server/config.yaml
-[2024-XX-XX] info  HTTP server listening on http://127.0.0.1:8080/
+[2026-07-09T10:00:00.000Z] info  code-server 4.95.3
+[2026-07-09T10:00:00.000Z] info  Using config file ~/.config/code-server/config.yaml
+[2026-07-09T10:00:00.000Z] info  HTTP server listening on http://127.0.0.1:8080/
+[2026-07-09T10:00:00.000Z] info  Session server listening on ~/.local/share/code-server/code-server-ipc.sock
 ```
 
 ---
 
-## 🌐 Step 6: Access VS Code
+### Step 6: Access VS Code
 
-1. Open your browser (Chrome, Firefox, etc.)
-2. Navigate to: [http://127.0.0.1:8080](http://127.0.0.1:8080)
-3. Enter the password you set in the config file
-4. ✅ You now have a fully functional VS Code!
-
----
-
-## 🧩 Step 7: Install Essential Extensions
-
-Once in VS Code, install these extensions for development:
-
-| Extension | Purpose |
-|-----------|---------|
-| **Python** | Python development |
-| **ESLint** | JavaScript linting |
-| **Prettier** | Code formatter |
-| **Live Server** | Web development |
-| **C/C++** | C/C++ development |
-| **Java Extension Pack** | Java development |
-
-> 💾 Storage used per extension: ~10–50 MB each
+1. Open your preferred browser (Chrome, Firefox, Brave, etc.)
+2. Navigate to: **[http://127.0.0.1:8080](http://127.0.0.1:8080)**
+3. Enter your configured password
+4. ✅ **VS Code is now running on your Android device**
 
 ---
 
-## 🛠️ Step 8: Set Up Development Environments
+## 🧩 Extensions
 
-### 🐍 Python
+Install the following essential extensions via the Extensions panel (`Ctrl+Shift+X`):
+
+| Extension | Publisher | Purpose |
+|-----------|-----------|---------|
+| **Python** | Microsoft | Python language support, IntelliSense, debugging |
+| **ESLint** | Microsoft | JavaScript/TypeScript linting |
+| **Prettier** | Prettier | Code formatting |
+| **Live Server** | Ritwick Dey | Local development server for web projects |
+| **C/C++** | Microsoft | C and C++ language support |
+| **Extension Pack for Java** | Microsoft | Java development toolkit |
+| **GitLens** | GitKraken | Enhanced Git visualization |
+| **Markdown All in One** | Yu Zhang | Markdown authoring support |
+
+> 💾 **Storage impact:** ~10–50 MB per extension
+
+---
+
+## 🛠️ Development Environments
+
+### Python
+
 ```bash
 pkg install python
 pip install --upgrade pip
 ```
-> 💾 Storage used: ~50–100 MB
 
-### 📜 Node.js
-Already installed! You can verify:
+> 💾 **Storage impact:** ~50–100 MB
+
+**Verify installation:**
 ```bash
-node --version
-npm --version
+python --version
+pip --version
 ```
 
-### ⚙️ C/C++
+---
+
+### Node.js
+
+Pre-installed with Step 2. Verify:
+
+```bash
+node --version   # v22.x.x
+npm --version    # 10.x.x
+```
+
+---
+
+### C / C++
+
 ```bash
 pkg install clang
 ```
-> 💾 Storage used: ~200–300 MB
 
-### ☕ Java
+> 💾 **Storage impact:** ~200–300 MB
+
+**Verify installation:**
 ```bash
-pkg install openjdk-17
+clang --version
 ```
-> 💾 Storage used: ~300–400 MB
 
-### 🌐 Web Development
+---
+
+### Java
+
+```bash
+pkg install openjdk-21
+```
+
+> 💾 **Storage impact:** ~300–400 MB
+
+**Verify installation:**
+```bash
+java --version
+javac --version
+```
+
+---
+
+### Web Development
+
 ```bash
 npm install -g live-server
 ```
-> 💾 Storage used: ~20–30 MB
+
+> 💾 **Storage impact:** ~20–30 MB
 
 ---
 
-## 🔄 Step 9: Make Code-Server Start Automatically (Optional)
+## 🔄 Background Operation
 
-Create a startup script:
-```bash
-cat > ~/start-vscode.sh << 'EOF'
-#!/data/data/com.termux/files/usr/bin/bash
-code-server
-EOF
-chmod +x ~/start-vscode.sh
-```
+To maintain VS Code availability without keeping Termux in the foreground, use one of the following methods:
 
-Now you can start VS Code by running:
-```bash
-~/start-vscode.sh
-```
+### Method 1: `nohup` (Recommended)
 
----
+Run code-server detached from the terminal:
 
-## 🔁 Keep Code-Server Running in Background
-
-To prevent having to reopen Termux every time the server disconnects, use one of these methods:
-
-### Method 1: Using `nohup` (Recommended)
 ```bash
 nohup code-server > ~/code-server.log 2>&1 &
 ```
 
-To stop it:
+**Stop the server:**
 ```bash
 pkill code-server
 ```
 
-### Method 2: Using Termux:Boot (Auto-start on device boot)
+**View logs:**
+```bash
+tail -f ~/code-server.log
+```
+
+---
+
+### Method 2: Termux:Boot (Auto-start on Boot)
 
 1. Install **Termux:Boot** from F-Droid
-2. Create the boot script directory:
+2. Create the boot directory:
    ```bash
    mkdir -p ~/.termux/boot
    ```
-3. Create a startup script:
+3. Create the startup script:
    ```bash
    cat > ~/.termux/boot/start-code-server.sh << 'EOF'
    #!/data/data/com.termux/files/usr/bin/bash
    termux-wake-lock
-   code-server > ~/code-server.log 2>&1 &
+   nohup code-server > ~/code-server.log 2>&1 &
    EOF
    chmod +x ~/.termux/boot/start-code-server.sh
    ```
-4. Reboot your device — code-server will start automatically!
+4. Reboot your device — code-server starts automatically
 
-### Method 3: Using `tmux`
+---
 
-Install tmux:
+### Method 3: `tmux` Session Management
+
 ```bash
 pkg install tmux
 ```
 
-Start code-server in tmux:
+**Create and attach to a session:**
 ```bash
 tmux new -s vscode
 code-server
 ```
 
-- **Detach** from tmux: Press `Ctrl+B` then `D`
-- **Reattach** later:
-  ```bash
-  tmux attach -t vscode
-  ```
+**Detach:** `Ctrl+B` then `D`  
+**Reattach:** `tmux attach -t vscode`
 
-### Keep Termux Running in Background
+---
 
-To prevent Android from killing Termux:
+### Prevent Android from Killing Termux
 
-1. Go to **Android Settings → Apps → Termux**
-2. Disable **battery optimization** for Termux
-3. Enable **"Allow background activity"**
-4. Use `termux-wake-lock` to keep CPU awake:
+1. **Android Settings → Apps → Termux → Battery → Unrestricted**
+2. **Disable battery optimization** for Termux
+3. **Acquire wake lock** to keep CPU active:
    ```bash
    termux-wake-lock
    ```
-   To release the wake lock:
+4. **Release wake lock** when done:
    ```bash
    termux-wake-unlock
    ```
 
-> ✅ **Best Practice:** Use Method 1 (`nohup`) + wake-lock for the most reliable background operation!
+> ✅ **Best Practice:** Combine `nohup` + `termux-wake-lock` for maximum reliability.
 
 ---
 
-## 🌍 Step 10: Access from External Browser (Optional)
+## 🌍 External Access
 
-To access VS Code from another device on the same network:
+To access VS Code from another device on the same local network:
 
-1. Find your device's IP address:
+1. **Identify your device's IP address:**
    ```bash
    ifconfig
    ```
-2. Modify the config file:
+   Look for the `wlan0` interface (e.g., `192.168.1.42`).
+
+2. **Update the binding address:**
    ```bash
    nano ~/.config/code-server/config.yaml
    ```
-   Change `bind-addr` to:
+   Change:
    ```yaml
    bind-addr: 0.0.0.0:8080
    ```
-3. Restart code-server
-4. Access from another device: `http://YOUR_DEVICE_IP:8080`
+
+3. **Restart code-server**
+
+4. **Access from another device:**
+   ```
+   http://YOUR_DEVICE_IP:8080
+   ```
+
+> ⚠️ **Security Warning:** Only expose code-server on trusted local networks. For remote access, use a VPN or SSH tunnel.
 
 ---
 
-## ✨ Features You Can Use
+## ✨ Features
 
-| Feature | Status |
-|---------|--------|
-| Full VS Code Editor | ✅ All editing features work |
-| Integrated Terminal | ✅ Built-in terminal access |
-| Git Integration | ✅ Clone, commit, push repositories |
-| Extensions | ✅ Install thousands of VS Code extensions |
-| Debugging | ✅ Debug Python, Node.js, C++, and more |
-| IntelliSense | ✅ Code completion and suggestions |
-| File Explorer | ✅ Browse and manage files |
-| Multi-language Support | ✅ Python, JavaScript, C++, Java, etc. |
+| Capability | Status | Notes |
+|------------|--------|-------|
+| Full VS Code Editor | ✅ Supported | All editing features, multi-cursor, Emmet |
+| Integrated Terminal | ✅ Supported | Full bash/zsh access within editor |
+| Git Integration | ✅ Supported | Clone, commit, push, pull, diff |
+| Extensions Marketplace | ✅ Supported | Thousands of extensions available |
+| Debugging | ✅ Supported | Python, Node.js, C++, Java |
+| IntelliSense | ✅ Supported | Code completion, hover info, go-to-definition |
+| File Explorer | ✅ Supported | Full filesystem navigation |
+| Multi-language Support | ✅ Supported | 50+ programming languages |
+| Remote Development | ✅ Supported | Access from any browser on the network |
+| Themes & Customization | ✅ Supported | Full theme and settings sync |
 
 ---
 
-## 🎯 Example Projects You Can Build
+## 🎯 Example Projects
 
-### 1. Flask Python Web App
+### 1. Flask Web Application
+
 ```bash
-mkdir ~/projects/flask-app
-cd ~/projects/flask-app
+mkdir -p ~/projects/flask-demo
+cd ~/projects/flask-demo
 pip install flask
 ```
 
-Create `app.py`:
+**`app.py`:**
 ```python
-from flask import Flask
+from flask import Flask, jsonify
+
 app = Flask(__name__)
 
 @app.route('/')
-def hello():
-    return 'Hello from Termux VS Code!'
+def index():
+    return jsonify({
+        "message": "Hello from Termux VS Code!",
+        "platform": "Android",
+        "runtime": "Flask + Python"
+    })
+
+@app.route('/health')
+def health():
+    return jsonify({"status": "healthy"})
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    app.run(host='0.0.0.0', port=5000, debug=True)
 ```
 
-### 2. Express Node.js App
+**Run:**
 ```bash
-mkdir ~/projects/express-app
-cd ~/projects/express-app
+python app.py
+```
+
+---
+
+### 2. Express.js REST API
+
+```bash
+mkdir -p ~/projects/express-demo
+cd ~/projects/express-demo
 npm init -y
 npm install express
 ```
 
-Create `server.js`:
+**`server.js`:**
 ```javascript
 const express = require('express');
 const app = express();
 
+app.use(express.json());
+
 app.get('/', (req, res) => {
-    res.send('Hello from Termux VS Code!');
+    res.json({
+        message: 'Hello from Termux VS Code!',
+        platform: 'Android',
+        runtime: 'Node.js + Express'
+    });
+});
+
+app.get('/health', (req, res) => {
+    res.json({ status: 'healthy' });
 });
 
 app.listen(3000, '0.0.0.0', () => {
-    console.log('Server running on port 3000');
+    console.log('🚀 Server running at http://0.0.0.0:3000');
 });
 ```
 
-### 3. C++ Program
+**Run:**
+```bash
+node server.js
+```
 
-Create `hello.cpp`:
+---
+
+### 3. C++ Console Application
+
+**`hello.cpp`:**
 ```cpp
 #include <iostream>
-using namespace std;
+#include <string>
 
 int main() {
-    cout << "Hello from Termux VS Code!" << endl;
+    std::string platform = "Termux on Android";
+    std::cout << "Hello from " << platform << "!" << std::endl;
+    std::cout << "Compiled with Clang in VS Code." << std::endl;
     return 0;
 }
 ```
 
-Compile and run:
+**Compile and run:**
 ```bash
-clang++ hello.cpp -o hello
+clang++ -std=c++17 -O2 hello.cpp -o hello
 ./hello
 ```
 
@@ -370,91 +523,124 @@ clang++ hello.cpp -o hello
 
 ## 🔧 Troubleshooting
 
-### ❌ Can't connect to localhost
-- Make sure code-server is running
-- Check the port in the URL matches your config
-- Try restarting Termux
+### Connection Refused / localhost unreachable
 
-### ❌ Extensions won't install
-- Check your internet connection
-- Try restarting code-server
-- Some extensions may not be compatible with ARM architecture
+| Check | Command |
+|-------|---------|
+| Is code-server running? | `pgrep -f code-server` |
+| Correct port? | `cat ~/.config/code-server/config.yaml` |
+| Restart Termux | Close all sessions and reopen |
+| Restart code-server | `pkill code-server && code-server` |
 
-### ❌ Out of storage
+---
+
+### Extension Installation Fails
+
+| Cause | Solution |
+|-------|----------|
+| No internet connection | Verify Wi-Fi / mobile data |
+| ARM architecture limitation | Check extension compatibility |
+| Outdated code-server | `npm update -g code-server` |
+| Corrupted extension cache | `rm -rf ~/.local/share/code-server/extensions` |
+
+---
+
+### Insufficient Storage
+
 ```bash
-# Clean Termux cache
+# Clean package cache
 pkg clean
 
-# Remove unused packages
-pkg autoremove
+# Remove unused dependencies
+pkg autoremove -y
 
-# Check storage
-du -sh ~/.config/code-server
+# Check code-server disk usage
+du -sh ~/.config/code-server ~/.local/share/code-server
+
+# List largest packages
+dpkg-query -Wf '${Installed-Size}\t${Package}\n' | sort -n | tail -20
 ```
 
-### ❌ Code-server crashes
-- Check available RAM
-- Restart Termux
-- Update all packages:
-  ```bash
-  pkg update && pkg upgrade
-  ```
+---
+
+### Code-Server Crashes or Freezes
+
+| Action | Command |
+|--------|---------|
+| Check available RAM | `free -h` |
+| Kill all code-server processes | `pkill -9 code-server` |
+| Update all packages | `pkg update && pkg upgrade -y` |
+| Clear extension cache | `rm -rf ~/.local/share/code-server/CachedExtensionVSIXs` |
+| Restart with minimal extensions | `code-server --disable-extensions` |
 
 ---
 
-## ⚡ Performance Tips
+## ⚡ Performance Optimization
 
-1. **Close unused tabs** — Keep only necessary files open
-2. **Disable heavy extensions** — Only use what you need
-3. **Use lightweight themes** — Dark+ or Light+ themes
-4. **Limit terminal instances** — Close terminals when not in use
-5. **Clear cache regularly** — Run `pkg clean` weekly
+1. **Limit Open Tabs** — Keep only actively edited files open
+2. **Disable Unused Extensions** — Uninstall or disable extensions not in use
+3. **Use Lightweight Themes** — Prefer Dark+ or Light+ over heavy custom themes
+4. **Manage Terminal Instances** — Close integrated terminals when not needed
+5. **Regular Maintenance** — Run `pkg clean` weekly to reclaim space
+6. **Enable File Exclusions** — Add `node_modules/`, `__pycache__/` to `files.exclude`
+7. **Reduce Editor Font Size** — Smaller fonts improve rendering performance on mobile
 
 ---
 
-## 💾 Advanced: Using with Storage
+## 💾 Storage Integration
 
-Grant Termux storage access:
+Grant Termux access to Android shared storage:
+
 ```bash
 termux-setup-storage
 ```
 
-This creates a `~/storage` directory with access to:
-- `~/storage/downloads` — Download folder
-- `~/storage/dcim` — Camera photos
-- `~/storage/shared` — Internal storage
+**Available mount points:**
+
+| Path | Description |
+|------|-------------|
+| `~/storage/downloads` | Downloads folder |
+| `~/storage/dcim` | Camera photos & videos |
+| `~/storage/shared` | Internal storage root |
+| `~/storage/music` | Music directory |
+| `~/storage/movies` | Movies directory |
+| `~/storage/pictures` | Pictures directory |
+
+**Sync projects with Git:**
+```bash
+cd ~/projects/my-app
+git init
+git add .
+git commit -m "Initial commit"
+git remote add origin https://github.com/username/repo.git
+git push -u origin main
+```
 
 ---
 
 ## 🔒 Security Best Practices
 
-1. **Use strong passwords** — For code-server authentication
-2. **Don't expose to public internet** — Use localhost or VPN
-3. **Keep packages updated** — Run `pkg upgrade` regularly
-4. **Be careful with permissions** — Only grant what's needed
+| Practice | Implementation |
+|----------|----------------|
+| Strong Authentication | Use 16+ character passwords with mixed entropy |
+| Network Isolation | Bind to `127.0.0.1` by default; avoid `0.0.0.0` on public networks |
+| Encrypted Remote Access | Use WireGuard or OpenVPN instead of direct exposure |
+| Regular Updates | `pkg upgrade` weekly to patch vulnerabilities |
+| Minimal Permissions | Grant only required Android permissions to Termux |
+| Secret Management | Never commit credentials; use `.env` files excluded from Git |
+| Session Timeout | Restart code-server after extended idle periods |
 
 ---
 
-## 🎉 Conclusion
+## 📚 Resources
 
-You now have a fully functional VS Code development environment on your Android device! You can:
-
-- ✅ Write code in multiple languages
-- ✅ Install extensions
-- ✅ Use Git for version control
-- ✅ Build and run applications
-- ✅ Debug code
-- ✅ Access from any browser
-
-**All without needing a PC!** Happy coding! 🚀
-
----
-
-## 📚 Additional Resources
-
-- [Code-Server Documentation](https://coder.com/docs/code-server/latest)
-- [Termux Wiki](https://wiki.termux.com/)
-- [VS Code Extensions Marketplace](https://marketplace.visualstudio.com/)
+| Resource | Link |
+|----------|------|
+| Code-Server Documentation | [coder.com/docs/code-server](https://coder.com/docs/code-server/latest) |
+| Termux Wiki | [wiki.termux.com](https://wiki.termux.com/) |
+| VS Code Docs | [code.visualstudio.com/docs](https://code.visualstudio.com/docs) |
+| F-Droid Repository | [f-droid.org](https://f-droid.org/) |
+| Atlantia Empire Project | [github.com/skynetfc/Atlantia-Empire](https://github.com/skynetfc/Atlantia-Empire) |
 
 ---
 
@@ -462,11 +648,13 @@ You now have a fully functional VS Code development environment on your Android 
 
 ## 🌟 Created by Skynet
 
-[![GitHub](https://img.shields.io/badge/GitHub-@skynetfc-black?style=for-the-badge&logo=github)](https://github.com/skynetfc)
-[![Project](https://img.shields.io/badge/Project-Atlantia--Empire-purple?style=for-the-badge&logo=github)](https://github.com/skynetfc/Atlantia-Empire)
+[![GitHub](https://img.shields.io/badge/GitHub-@skynetfc-181717?style=for-the-badge&logo=github)](https://github.com/skynetfc)
+[![Project](https://img.shields.io/badge/Atlantia--Empire-7B2CBF?style=for-the-badge&logo=github)](https://github.com/skynetfc/Atlantia-Empire)
 
-> 💡 **Note:** This setup is perfect for learning, mobile development, and quick projects. For heavy development work, a PC is still recommended, but this setup is surprisingly powerful for most tasks!
+---
 
-⭐ If this guide helped you, please star the repository!
+> 💡 **Note:** This setup is ideal for mobile development, learning, prototyping, and lightweight production workloads. For resource-intensive tasks (large builds, heavy ML training), a dedicated workstation remains recommended.
+
+**If this guide helped you, please ⭐ star the repository!**
 
 </div>
